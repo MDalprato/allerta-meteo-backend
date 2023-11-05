@@ -1,11 +1,18 @@
+const getFromDb = require("./getFromDb");
 const getDataFromStream = require("./getStationData");
-const stationsData = require('./streams/streams.json');
+const stationsData = require('./rivers/rivers.json');
+const saveToDb = require("./saveToDb");
 
 
 function main() {
-    getDataFromStream(stationsData.lamone);
-    getDataFromStream(stationsData.senio);
-
+  
+    getFromDb("senio")
+    .then((data) => {
+        console.log(data)
+    })
+    .catch((error) => {
+        console.error(error);
+    });
 }
 
 main()
