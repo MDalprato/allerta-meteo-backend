@@ -1,6 +1,7 @@
 //https://allertameteo.regione.emilia-romagna.it/o/api/allerta/get-sensor-values-no-time?variabile=254,0,0/1,-,-,-/B13215&time=1699191000000
 
 const https = require('https');
+var asciichart = require('asciichart');
 
 
 function getDataFromStream(stationNamesToRetrieve) {
@@ -32,11 +33,15 @@ function getDataFromStream(stationNamesToRetrieve) {
                         delete stationData.idstazione;
 
                         results[stationName] = stationData;
+
+
+
                     } else {
                         console.log(`Station "${stationName}" not found in the data.`);
                     }
                 });
 
+                console.log(results)
                 resolve(results);
             });
         }).on('error', (error) => {

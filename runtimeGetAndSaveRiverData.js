@@ -17,6 +17,6 @@ function runtimeGetAndSaveRiverData() {
 
 // Schedule the function to run every 10 minutes (10 * 60 * 1000 milliseconds)
 //const intervalInMilliseconds = 10 * 60 * 1000;
-const intervalInMilliseconds = 60 * 1000;
+const intervalInMilliseconds = 5 * 1000;
 
 setInterval(runtimeGetAndSaveRiverData, intervalInMilliseconds);
