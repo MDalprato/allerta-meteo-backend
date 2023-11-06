@@ -53,8 +53,13 @@ function generateChart(dataInput) {
     const elNum = Object.values(dataInput).length;
 
     var s0 = new Array (elNum)
-    for (var i = 0; i < s0.length; i++)
-        s0[i] = Object.values(dataInput)[i].value;
+    for (var i = 0; i < s0.length; i++){
+        const percOfullness = (Object.values(dataInput)[i].value * 100) / Object.values(dataInput)[i].soglia3;
+        const cleanData = percOfullness > 0 ? percOfullness : 0;
+        console.log(cleanData)
+        s0[i] = cleanData/10;
+    }
+     
 
     console.log (asciichart.plot (s0))
 
