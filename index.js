@@ -5,14 +5,14 @@ const saveToDb = require("./saveToDb");
 
 
 function main() {
-  
+
     getFromDb("senio")
-    .then((data) => {
-        console.log(data)
-    })
-    .catch((error) => {
-        console.error(error);
-    });
+        .then((data) => {
+            console.log(data)
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 }
 
 main()
