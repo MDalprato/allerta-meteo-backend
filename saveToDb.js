@@ -23,7 +23,6 @@ async function saveToDb(riverName, riverData) {
         // Insert the data entry
         const result = await collection.insertOne(entryWithTimestamp);
 
-        console.log(`Inserted data for Mezzano: ${result.insertedId}`);
     } catch (err) {
         console.error('Error inserting data:', err);
     } finally {

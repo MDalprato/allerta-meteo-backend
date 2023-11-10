@@ -40,8 +40,6 @@ function getDataFromStream(stationNamesToRetrieve) {
                         console.log(`Station "${stationName}" not found in the data.`);
                     }
                 });
-
-                console.log(results)
                 resolve(results);
             });
         }).on('error', (error) => {

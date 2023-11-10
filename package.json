@@ -12,6 +12,7 @@
     "arima": "^0.2.5",
     "asciichart": "^1.5.25",
     "https": "^1.0.0",
-    "mongodb": "^6.2.0"
+    "mongodb": "^6.2.0",
+    "nodemon": "^3.0.1"
   }
 }
