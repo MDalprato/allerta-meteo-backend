@@ -3,6 +3,7 @@
 const https = require('https');
 var asciichart = require('asciichart');
 const moment = require('moment');
+const Station = require('../classes/Station');
 
 function getTimestamp(){
 
@@ -25,10 +26,10 @@ function getDataFromStream(stationNamesToRetrieve) {
     return new Promise((resolve, reject) => {
 
         const ts = getTimestamp();
+        const type = '254,0,0/1,-,-,-/B13215'
+        const uri = `https://allertameteo.regione.emilia-romagna.it/o/api/allerta/get-sensor-values-no-time?variabile=${type}&time=${ts}`
 
-        const uri = `https://allertameteo.regione.emilia-romagna.it/o/api/allerta/get-sensor-values-no-time?variabile=254,0,0/1,-,-,-/B13215&time=${ts}`
 
-        
         https.get(uri, (response) => {
             let data = '';
 
@@ -41,21 +42,15 @@ function getDataFromStream(stationNamesToRetrieve) {
                 const jsonData = JSON.parse(data);
                 const results = {};
 
+
                 // Iterate through the station names to retrieve values
                 stationNamesToRetrieve.forEach((stationName) => {
                     const stationData = jsonData.find((station) => station.nomestaz === stationName);
 
                     if (stationData) {
-
-                        // Remove the properties
-                        delete stationData.ordinamento;
-                        delete stationData.lon;
-                        delete stationData.lat;
-                        delete stationData.idstazione;
-
-                        results[stationName] = stationData;
-
-
+                        
+                        const currentStation = new Station(stationData.ordinamento, stationData.nomestaz, stationData.lon, stationData.soglia1, stationData.value, stationData.soglia2, stationData.lat, stationData.soglia3);
+                        results[stationName] = currentStation;
 
                     } else {
                         console.log(`Station "${stationName}" not found in the data.`);

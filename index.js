@@ -1,14 +1,7 @@
+const Stations = require("./classes/Stations");
 
-const getDataFromStream = require("./getStationData");
+const myStations = new Stations();
 
-const data = [
-    "Marradi",
-    "Strada Casale",
-    "Sarna",
-    "Faenza",
-    "Reda",
-    "Pieve Cesato",
-    "Mezzano"
-];
-
-getDataFromStream(data);
+myStations.getAllStations().then((stations) => {
+    console.log(stations);
+});
