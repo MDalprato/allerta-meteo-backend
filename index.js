@@ -5,4 +5,3 @@ const stationsData = require('./rivers/rivers.json');
 const saveToDb = require("./saveToDb");
 
 
-generateChart(example)
