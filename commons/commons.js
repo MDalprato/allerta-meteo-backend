@@ -17,6 +17,7 @@ function getTimestamp() {
     return ts;
 };
 
+
 module.exports = {
     getTimestamp: getTimestamp
 };
