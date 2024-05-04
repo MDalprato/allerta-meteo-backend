@@ -1,19 +1,23 @@
 class Station {
     // Costruttore della classe
-    constructor(idstazione, ordinamento, nomestaz, lon, soglia1, value, soglia2, lat, soglia3) {
+
+    constructor(idstazione, ordinamento, nomestaz, lon, soglia1, soglia2, lat, soglia3) {
 
         this.idstazione = idstazione;
         this.ordinamento = ordinamento;
         this.nomestaz = nomestaz;
         this.lon = lon;
         this.soglia1 = soglia1;
-        this.value = value;
         this.soglia2 = soglia2;
         this.lat = lat;
         this.soglia3 = soglia3;
-
+        this.readings = [];
     }
-    // Metodi della classe
+
+    addReading(value){
+        this.readings.push({data: new Date(), value: value})
+    }
+   
     getPosition() {
         return {
             longitude: this.longitude,
@@ -21,26 +25,8 @@ class Station {
         };
     }
 
-    getIfIsOverThreshold() {
-        return this.value > this.soglia1;
-    }
-
-    getIfIsUnderThreshold() {
-        return this.value < this.soglia1;
-    }
-
-    getWhichThreshold() {
-        if (this.value > this.soglia1) {
-            return 1;
-        } else if (this.value < this.soglia1) {
-            return 2;
-        } else {
-            return 3;
-        }
-    }   
-
-    getValue() {
-        return this.value;
+    isValid() {
+        return this.idstazione && this.ordinamento && this.nomestaz && this.lon && this.soglia1 && this.soglia2 && this.lat && this.soglia3;
     }
 
     getObject() {
@@ -50,11 +36,15 @@ class Station {
             nomestaz: this.nomestaz,
             lon: this.lon,
             soglia1: this.soglia1,
-            value: this.value,
             soglia2: this.soglia2,
             lat: this.lat,
-            soglia3: this.soglia3
+            soglia3: this.soglia3,
+            readings: this.readings,
         }
+    }
+
+    getReadings() {
+        return this.readings;
     }
     
 }
