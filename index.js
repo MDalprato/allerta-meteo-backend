@@ -1,25 +1,26 @@
-const Stations = require("./classes/Stations");
-const getFromDb = require("./old_stuff/getFromDb");
+// Importa il modulo http di Node.js
+const http = require('http');
 
-const myStations = new Stations();
+// Crea il server
+const server = http.createServer((req, res) => {
+    // Verifica se la richiesta è per la rotta /stazioni
+    if (req.url === '/stazioni') {
+        // Imposta lo status della risposta a 200 (OK)
+        res.writeHead(200, {'Content-Type': 'text/plain'});
 
-myStations.fetchStations().then((stations) => { // ottengo i nuovi dati
-  myStations.saveStationsToDb(stations).then(() => { // li salvo sul db
-
-
-    setInterval(() => {
-      console.log("-------- NEW READ --------")
-      myStations.fetchStations().then((stations) => {  // ottengo nuovi dati
-        myStations.addNewReadings(stations).then(() => { // aggiorno solo le letture dei valori per le stazioni trovate ;)
-        });
-      });
-    }, 5000);
-
-  });
+        // Invia la risposta "Hello World"
+        res.end('Hello World\n');
+    } else {
+        // Se la rotta richiesta non è /stazioni, rispondi con un 404 (Not Found)
+        res.writeHead(404, {'Content-Type': 'text/plain'});
+        res.end('404 Not Found\n');
+    }
 });
 
+// Definisci la porta su cui il server ascolterà le richieste
+const PORT = process.env.PORT || 3000;
 
-// devo fare in modo di aggiornare i dati delle stazioni in modo automatico ogni X minuti
-// se una stazione esiste allora aggiungo una nuova lettura con la data connessa
-// se non esiste la stazione allora la creo e aggiungo la lettura
-
+// Avvia il server e fai in modo che ascolti sulla porta specificata
+server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
