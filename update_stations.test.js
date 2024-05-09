@@ -28,3 +28,6 @@ afterAll(done => {
     mongoose.connection.close()
     done()
 })
+
+// will do a test from the server response 'curl http://localhost:3000/stazioni' ... in the future
+// no need to hurry now !
