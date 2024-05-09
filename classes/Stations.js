@@ -1,16 +1,12 @@
 const https = require('https');
 const Station = require('./Station');
-const { getTimestamp } = require('../commons/commons');
 const mongoose = require('mongoose');
 const StationModel = require('../Schemas/Station');
-
-const dbConnection = "mongodb://localhost:27017/";
+const { getTimestamp } = require('../commons/commons');
+const { get_sensor_values_url, get_sensor_values_type, dbConnection } = require('../config');
 
 
 class Stations {
-
-  
-  
 
   fetchStations() {
 
@@ -18,9 +14,9 @@ class Stations {
 
       const ts = getTimestamp();
       const type = '254,0,0/1,-,-,-/B13215'
-      const uri = `https://allertameteo.regione.emilia-romagna.it/o/api/allerta/get-sensor-values-no-time?variabile=${type}&time=${ts}`;
       const stations = [];
 
+      const uri = get_sensor_values_url + `?variabile=${get_sensor_values_type}&time=${ts}`;
 
       https.get(uri, (response) => {
         let data = '';
