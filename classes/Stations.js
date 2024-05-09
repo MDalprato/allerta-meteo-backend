@@ -115,7 +115,6 @@ class Stations {
         StationModel
           .insertMany(stationsToBeSaved)
           .then(stations => {
-            console.log("inserted");
             resolve(stations);
           })
           .catch(err => {

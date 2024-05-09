@@ -8,10 +8,9 @@ myStations.fetchStations().then((stations) => { // ottengo i nuovi dati
 
 
     setInterval(() => {
-      console.log("New readings")
+      console.log("-------- NEW READ --------")
       myStations.fetchStations().then((stations) => {  // ottengo nuovi dati
         myStations.addNewReadings(stations).then(() => { // aggiorno solo le letture dei valori per le stazioni trovate ;)
-          console.log("saved")
         });
       });
     }, 5000);
