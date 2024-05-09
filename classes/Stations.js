@@ -99,7 +99,7 @@ class Stations {
 
     if(!Array.isArray(stationsToBeSaved) && stationsToBeSaved.length === 0) {
       console.log("Invalid stations to be saved");
-      return;
+      return 'Error'
     }
 
     return new Promise((resolve, reject) => {
