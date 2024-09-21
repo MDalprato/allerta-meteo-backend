@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "updater": "node updader.js"
+    "updater": "node apps/updader.js",
+    "stats": "node apps/stats.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "arima": "^0.2.5",
     "asciichart": "^1.5.25",
+    "dotenv": "^16.4.5",
     "http": "^0.0.1-security",
     "https": "^1.0.0",
     "moment": "^2.30.1",

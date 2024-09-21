@@ -14,14 +14,14 @@ I servizi basilari saranno:*
   "_id": {
     "$oid": "66eef31028cce98af5767c97"
   },
-  "idstazione": "-/1264204,4391441/simnbo",
-  "ordinamento": 1805,
-  "nomestaz": "Morciano di Romagna",
+  "stationId": "-/1264204,4391441/simnbo",
+  "order": 1805,
+  "stationName": "Morciano di Romagna",
   "lon": 1264204,
-  "soglia1": 0.8,
-  "soglia2": 1.3,
+  "theshold1": 0.8,
+  "theshold2": 1.3,
   "lat": 4391441,
-  "soglia3": 1.7,
+  "theshold3": 1.7,
   "readings": [
     {
       "data": {
