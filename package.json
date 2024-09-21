@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "updater": "node apps/updader.js",
+    "updater": "node apps/updater.js",
     "stats": "node apps/stats.js"
   },
   "author": "",

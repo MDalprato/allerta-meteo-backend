@@ -20,6 +20,14 @@ class Stations {
           try {
             const jsonData = JSON.parse(data);
             const stations = jsonData.map(stationData => {
+
+              if (stationData.idstazione == undefined ||
+                stationData.ordinamento == undefined ||
+                stationData.nomestaz == undefined ||
+                stationData.lon == undefined ||
+                stationData.lat == undefined ){
+                return;
+              }
               const station = new Station(
                 stationData.idstazione,
                 stationData.ordinamento,
@@ -56,7 +64,7 @@ class Stations {
             { idstazione: station.idstazione },
             { $push: { readings: { data: new Date(), value: station.readings[0].value } } }
           );
-          
+
         } catch (err) {
           console.log("Cannot update station: ", station.nomestaz, err);
         }
