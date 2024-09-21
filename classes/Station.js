@@ -1,6 +1,6 @@
 class Station {
     // Costruttore della classe
-    constructor(idstazione, ordinamento, nomestaz, lon, soglia1, soglia2, lat, soglia3) {
+    constructor(idstazione, ordinamento, nomestaz, lon, soglia1, soglia2, lat, soglia3, lastValue) {
         if (!idstazione || !ordinamento || !nomestaz || !lon || !lat) {
             throw new Error('Tutti i parametri sono obbligatori');
         }
@@ -14,11 +14,23 @@ class Station {
         this.soglia2 = soglia2 ? soglia2 : 0;
         this.soglia3 = soglia3 ? soglia3 : 0;
         this.readings = [];
+        this.lastValue = lastValue ? lastValue : 0;
     }
 
     // Aggiunge una lettura alla stazione
     addReading(value) {
-        this.readings.push({ data: new Date(), value: value });
+        if (!value) return;
+        if (this.soglia3 === 0) return;
+
+        if (value > this.soglia1) {
+          //  console.log(`${this.nomestaz} ha superato la soglia 1`);
+        } else if (value > this.soglia2) {
+          //  console.log(`${this.nomestaz} ha superato la soglia 2`);
+        } else if (value > this.soglia3) {
+            console.log(`${this.nomestaz} ha superato la soglia 3 !!! pericolo !!`);
+        }
+
+        this.readings.push({ data: new Date(), value });
     }
 
     // Restituisce la posizione della stazione

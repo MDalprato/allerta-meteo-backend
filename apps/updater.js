@@ -8,7 +8,7 @@ async function updateStations() {
   setInterval(async () => {
     const newStations = await myStations.fetchStations();
     await myStations.addNewReadings(newStations);
-  }, 5000);
+  }, 10000);
 }
 
 updateStations();
