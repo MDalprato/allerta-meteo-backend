@@ -37,3 +37,7 @@ I servizi basilari saranno:*
 },
 ```
 - stats.js: Si occupa di ottnere i dati salvati da updater.js nella collection di mongo e di creare statistiche quali:
+  1) andamento del livello dell'acqua per una determinata staizone negli ultimi: 30 minuti, 60 minuti, 2/6/12/24/38 ore.
+
+- weather.js: Si occupa di ottenere i dati delle previsioni meteo da un provider ogni X minuti e di aggiornare una collection rapportando location->stazione.
+- future.js: Si occupa di mixare i dati statistici di stats.js con weather.js in modo da cercare di capire il rapporto che coesiste tra il meteo e l'andamento del livello dei fiumi. Per questa parte potrei valutare l'utilizzo di un servizio di IA o di Data anlytics (ma dopo aver deciso hosting e budget di spesa.)
