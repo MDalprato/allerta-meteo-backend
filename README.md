@@ -2,14 +2,38 @@
 
 ![Alt text](alert.jpeg?raw=true "Allerta-meteo")
 
-Questo semplice progetto node permette di ottenere alcune utili informazioni dal sito web allertameteo.regione.emilia-romagna.it e mostrarle in un formato più semplice e facilmente comprensibile.
+*Vista l'attuale situazione delle alluvioni e della loro grativà ho decito che questo progetto prenderà tutta un'altra piega.
+Il progetto sarà strutturato in microservizi (al momento sono banali script nodeJS)
+I servizi basilari saranno:*
 
-Sviluppi futuri backend:
-
-- Prelevare i dati in modo scedulato ogni ora e salvarli su un DB Mongo
-- Incapsulare il progetto con docker (e pubblicarlo su docker hub)
-- Trovare un hosting per docker (possibile NAS/free tier provider)
-
-Sviluppi futuri frontend:
-
-- Interfaccia che mostri in modo grafico e piacevole la situazione dei fiumi/allerte meteo
+- updater.js: Si occupa di ottenre i dati dalle varie stazioni e di aggiornare la collection di mongo (stations)
+  La struttura del dato sarà come sotto, dove i dati aggiornati saranno dentro l'array "readings"
+  
+```json
+{
+  "_id": {
+    "$oid": "66eef31028cce98af5767c97"
+  },
+  "idstazione": "-/1264204,4391441/simnbo",
+  "ordinamento": 1805,
+  "nomestaz": "Morciano di Romagna",
+  "lon": 1264204,
+  "soglia1": 0.8,
+  "soglia2": 1.3,
+  "lat": 4391441,
+  "soglia3": 1.7,
+  "readings": [
+    {
+      "data": {
+        "$date": "2024-09-21T16:23:44.058Z"
+      },
+      "value": 0.11,
+      "_id": {
+        "$oid": "66eef31028cce98af5767c98"
+      }
+    }
+  ],
+  "__v": 0
+},
+```
+- stats.js: Si occupa di ottnere i dati salvati da updater.js nella collection di mongo e di creare statistiche quali:

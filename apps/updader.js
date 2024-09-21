@@ -1,7 +1,6 @@
-const Stations = require("./classes/Stations");
-const getFromDb = require("./old_stuff/getFromDb");
-const mongoose = require('mongoose');
+// this script is used to update the db with the new data from the api
 
+const Stations = require("../classes/Stations");
 const myStations = new Stations();
 
 myStations.fetchStations().then((stations) => { // ottengo i nuovi dati
