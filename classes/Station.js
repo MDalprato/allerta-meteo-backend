@@ -22,12 +22,16 @@ class Station {
         if (!value) return;
         if (this.soglia3 === 0) return;
 
-        if (value > this.soglia1) {
-          //  console.log(`${this.nomestaz} ha superato la soglia 1`);
-        } else if (value > this.soglia2) {
-          //  console.log(`${this.nomestaz} ha superato la soglia 2`);
-        } else if (value > this.soglia3) {
+        if(this.nomestaz == "Faenza"){
+            debugger;
+        }
+
+        if (value > this.soglia3) {
             console.log(`${this.nomestaz} ha superato la soglia 3 !!! pericolo !!`);
+        } else if (value > this.soglia2) {
+        //    console.log(`${this.nomestaz} ha superato la soglia 2`);
+        } else if (value > this.soglia1) {
+          //  console.log(`${this.nomestaz} ha superato la soglia 1`);
         }
 
         this.readings.push({ data: new Date(), value });
