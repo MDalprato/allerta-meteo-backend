@@ -4,6 +4,7 @@ const { saveStationsToDb, saveReadingsToDb } = require("../commons/dbActions");
 const myStations = new Stations();
 
 function updateData() {
+  console.log("**** UPDATING DATA ****");
   setInterval(async () => {
     const readings = await myStations.getReadings();
     await saveReadingsToDb(readings);

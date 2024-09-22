@@ -8,6 +8,7 @@ const Reading = require('./Reading');
 require('dotenv').config();
 
 class Stations {
+  
   getStationFromUrl() {
     return new Promise((resolve, reject) => {
       const isDebug = process.env.DEBUG === 'true';
