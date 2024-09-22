@@ -25,6 +25,8 @@ class Reading {
         }
     }
 
+   
+
 }
 
 module.exports = Reading;

@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const StationModel = require('../Schemas/Station');
 const ReadingModel = require('../Schemas/Reading');
+const AlertModel = require('../Schemas/Alert');
+
 const { dbConnection } = require('../config');
 
 async function saveReadingsToDb(readingsToBeSaved) {
@@ -37,4 +39,21 @@ async function saveReadingsToDb(readingsToBeSaved) {
     }
   }
 
-module.exports = {saveReadingsToDb, saveStationsToDb};
+
+  async function saveAlertToDb(alert) {
+    if (!alert) {
+      console.log("Invalid alert to be saved");
+      return 'Error';
+    }
+  
+    try {
+      await mongoose.connect(dbConnection);
+      const savedAlert = await AlertModel.insertMany(alert);
+      return savedAlert;
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+
+module.exports = {saveReadingsToDb, saveStationsToDb, saveAlertToDb};

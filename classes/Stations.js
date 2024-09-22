@@ -1,14 +1,16 @@
 const https = require('https');
 const Station = require('./Station');
+const Reading = require('./Reading');
+const Alert = require('./Alert');
 const { getTimestamp } = require('../commons/commons');
 const { get_sensor_values_url, get_sensor_values_type } = require('../config');
 const fs = require('fs');
 const path = require('path');
-const Reading = require('./Reading');
+const { saveAlertToDb } = require('../commons/dbActions');
 require('dotenv').config();
 
 class Stations {
-  
+
   getStationFromUrl() {
     return new Promise((resolve, reject) => {
       const isDebug = process.env.DEBUG === 'true';
@@ -66,12 +68,38 @@ class Stations {
   async getReadings() {
     try {
       const jsonData = await this.getStationFromUrl();
-      const readings = jsonData.map(readingData => {
+      const readings = jsonData.map(async readingData => {
         if (!readingData.value || !readingData.idstazione || !readingData.nomestaz) {
           return null;
         }
         const data = new Date().toISOString();
         const reading = new Reading(data, readingData.value, readingData.idstazione, readingData.nomestaz);
+
+
+        if (readingData.soglia1 != 0 || readingData.soglia2 != 0 || readingData.soglia3 != 0) {
+
+
+          let typeOfAlert = undefined;
+
+          if (readingData.value > readingData.soglia3) {
+            typeOfAlert = "RED";
+            // red alert !
+          } else if (readingData.value > readingData.soglia2) {
+            typeOfAlert = "YELLOW";
+            // yellow alert !
+
+          } else if (readingData.value > readingData.soglia1) {
+            typeOfAlert = "GREEN";
+            // green alert !
+          }
+
+          if (typeOfAlert != undefined) {
+            console.log(`ALERT: ${readingData.nomestaz} - ${readingData.value} - ${typeOfAlert}`);
+            const newAlert = new Alert(data, readingData.idstazione, readingData.nomestaz, typeOfAlert);
+            await saveAlertToDb(newAlert);
+          }
+        }
+
         return reading.isValid() ? reading : null;
       }).filter(Boolean);
       console.log(`Fetched a total of ${readings.length} readings at ${new Date().toISOString()}`);
