@@ -20,8 +20,6 @@ async function saveReadingsToDb(readingsToBeSaved) {
     }
   }
   
-  
-  
   async function saveStationsToDb(stationsToBeSaved) {
     if (!Array.isArray(stationsToBeSaved) || stationsToBeSaved.length === 0) {
       console.log("Invalid stations to be saved");
