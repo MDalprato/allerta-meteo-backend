@@ -1,11 +1,10 @@
 const https = require('https');
 const Station = require('./Station');
-const mongoose = require('mongoose');
-const StationModel = require('../Schemas/Station');
 const { getTimestamp } = require('../commons/commons');
-const { get_sensor_values_url, get_sensor_values_type, dbConnection } = require('../config');
+const { get_sensor_values_url, get_sensor_values_type } = require('../config');
 const fs = require('fs');
 const path = require('path');
+const Reading = require('./Reading');
 require('dotenv').config();
 
 class Stations {
@@ -53,7 +52,6 @@ class Stations {
           stationData.soglia3,
           stationData.value
         );
-        station.addReading(stationData.value);
         return station.isValid() ? station : null;
       }).filter(Boolean);
       console.log(`Fetched a total of ${stations.length} stations at ${new Date().toISOString()}`);
@@ -63,53 +61,26 @@ class Stations {
     }
   }
 
-  async addNewReadings(newStationsData) {
-    console.log(`Adding new readings at ${new Date().toISOString()}`);
+
+  async getReadings() {
     try {
-      await mongoose.connect(dbConnection);
-      for (const element of newStationsData) {
-        const station = new Station(
-          element.idstazione,
-          element.ordinamento,
-          element.nomestaz,
-          element.lon,
-          element.soglia1,
-          element.soglia2,
-          element.lat,
-          element.soglia3,
-          element.lastValue
-        );
-        station.addReading(station.lastValue);
-        try {
-          await StationModel.findOneAndUpdate(
-            { idstazione: station.idstazione },
-            { $push: { readings: station.readings } }
-          );
-        } catch (err) {
-          console.log("Cannot update station: ", station.nomestaz, err);
+      const jsonData = await this.getStationFromUrl();
+      const readings = jsonData.map(readingData => {
+        if (!readingData.value || !readingData.idstazione || !readingData.nomestaz) {
+          return null;
         }
-      }
-    } catch (err) {
-      console.log(err);
+        const data = new Date().toISOString();
+        const reading = new Reading(data, readingData.value, readingData.idstazione, readingData.nomestaz);
+        return reading.isValid() ? reading : null;
+      }).filter(Boolean);
+      console.log(`Fetched a total of ${readings.length} readings at ${new Date().toISOString()}`);
+      return readings;
+    } catch (error) {
+      throw error;
     }
   }
 
-  async saveStationsToDb(stationsToBeSaved) {
-    if (!Array.isArray(stationsToBeSaved) || stationsToBeSaved.length === 0) {
-      console.log("Invalid stations to be saved");
-      return 'Error';
-    }
-
-    try {
-      await mongoose.connect(dbConnection);
-      const savedStations = await StationModel.insertMany(stationsToBeSaved);
-      console.log(`Saved a total of ${savedStations.length} stations at ${new Date().toISOString()}`);
-      return savedStations;
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  }
 }
+
 
 module.exports = Stations;

@@ -13,44 +13,19 @@ class Station {
         this.soglia1 = soglia1 ? soglia1 : 0;
         this.soglia2 = soglia2 ? soglia2 : 0;
         this.soglia3 = soglia3 ? soglia3 : 0;
-        this.readings = [];
-        this.lastValue = lastValue ? lastValue : 0;
     }
 
-    // Aggiunge una lettura alla stazione
-    addReading(value) {
-        if (!value) return;
-        if (this.soglia3 === 0) return;
-
-        if(this.nomestaz == "Faenza"){
-            debugger;
-        }
-
-        if (value > this.soglia3) {
-            console.log(`${this.nomestaz} ha superato la soglia 3 !!! pericolo !!`);
-        } else if (value > this.soglia2) {
-        //    console.log(`${this.nomestaz} ha superato la soglia 2`);
-        } else if (value > this.soglia1) {
-          //  console.log(`${this.nomestaz} ha superato la soglia 1`);
-        }
-
-        this.readings.push({ data: new Date(), value });
-    }
-
-    // Restituisce la posizione della stazione
-    getPosition() {
+     getPosition() {
         return {
             longitude: this.lon,
             latitude: this.lat
         };
     }
 
-    // Verifica se la stazione è valida
     isValid() {
         return !!(this.idstazione && this.ordinamento && this.nomestaz && this.lon && this.soglia1 && this.soglia2 && this.lat && this.soglia3);
     }
 
-    // Restituisce un oggetto con le proprietà della stazione
     getObject() {
         return {
             idstazione: this.idstazione,
@@ -61,13 +36,10 @@ class Station {
             soglia2: this.soglia2,
             lat: this.lat,
             soglia3: this.soglia3,
-            readings: this.readings,
         }
     }
 
-    getReadings() {
-        return this.readings;
-    }
+ 
 
 }
 
