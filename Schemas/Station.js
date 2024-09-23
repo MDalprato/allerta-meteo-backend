@@ -13,6 +13,7 @@ const mongoose = require("mongoose");
  * @property {number} soglia2 - The threshold 2 value of the station.
  * @property {number} lat - The latitude of the station.
  * @property {number} soglia3 - The threshold 3 value of the station.
+ * @property {number} value - The value of the station.
  */
 const StationSchema = new mongoose.Schema({
 
@@ -24,6 +25,7 @@ const StationSchema = new mongoose.Schema({
     soglia2: Number,
     lat: Number,
     soglia3: Number,
+    value: Number,
 
 });
 

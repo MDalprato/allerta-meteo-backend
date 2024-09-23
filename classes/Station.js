@@ -1,7 +1,7 @@
 class Station {
     // Costruttore della classe
-    constructor(idstazione, ordinamento, nomestaz, lon, soglia1, soglia2, lat, soglia3, lastValue) {
-        if (!idstazione || !ordinamento || !nomestaz || !lon || !lat) {
+    constructor(idstazione, ordinamento, nomestaz, lon, soglia1, soglia2, lat, soglia3, value) {
+        if (!idstazione || !ordinamento || !nomestaz || !lon || !lat || !value) {
             throw new Error('Tutti i parametri sono obbligatori');
         }
 
@@ -13,6 +13,7 @@ class Station {
         this.soglia1 = soglia1 ? soglia1 : 0;
         this.soglia2 = soglia2 ? soglia2 : 0;
         this.soglia3 = soglia3 ? soglia3 : 0;
+        this.value = value;
     }
 
      getPosition() {
@@ -23,7 +24,7 @@ class Station {
     }
 
     isValid() {
-        return !!(this.idstazione && this.ordinamento && this.nomestaz && this.lon && this.soglia1 && this.soglia2 && this.lat && this.soglia3);
+        return !!(this.idstazione && this.ordinamento && this.nomestaz && this.lon && this.soglia1 && this.soglia2 && this.lat && this.soglia3 && this.value);
     }
 
 
