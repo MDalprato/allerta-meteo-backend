@@ -6,13 +6,14 @@
   "scripts": {
     "test": "jest",
     "updater": "node apps/updater.js",
-    "stats": "node apps/stats.js"
+    "weather": "node apps/weather.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "arima": "^0.2.5",
     "asciichart": "^1.5.25",
+    "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "http": "^0.0.1-security",
     "https": "^1.0.0",

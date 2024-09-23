@@ -26,20 +26,6 @@ class Station {
         return !!(this.idstazione && this.ordinamento && this.nomestaz && this.lon && this.soglia1 && this.soglia2 && this.lat && this.soglia3);
     }
 
-    getObject() {
-        return {
-            idstazione: this.idstazione,
-            ordinamento: this.ordinamento,
-            nomestaz: this.nomestaz,
-            lon: this.lon,
-            soglia1: this.soglia1,
-            soglia2: this.soglia2,
-            lat: this.lat,
-            soglia3: this.soglia3,
-        }
-    }
-
- 
 
 }
 

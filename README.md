@@ -22,17 +22,6 @@ I servizi basilari saranno:*
   "theshold2": 1.3,
   "lat": 4391441,
   "theshold3": 1.7,
-  "readings": [
-    {
-      "data": {
-        "$date": "2024-09-21T16:23:44.058Z"
-      },
-      "value": 0.11,
-      "_id": {
-        "$oid": "66eef31028cce98af5767c98"
-      }
-    }
-  ],
   "__v": 0
 },
 ```
@@ -41,3 +30,4 @@ I servizi basilari saranno:*
 
 - weather.js: Si occupa di ottenere i dati delle previsioni meteo da un provider ogni X minuti e di aggiornare una collection rapportando location->stazione.
 - future.js: Si occupa di mixare i dati statistici di stats.js con weather.js in modo da cercare di capire il rapporto che coesiste tra il meteo e l'andamento del livello dei fiumi. Per questa parte potrei valutare l'utilizzo di un servizio di IA o di Data anlytics (ma dopo aver deciso hosting e budget di spesa.)
+- notificator.js: Si occupa di notificare (in qualche modo) gli allarmi
