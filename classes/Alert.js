@@ -27,16 +27,6 @@ class Alert {
     isValid() {
         return !!(this.data && this.idstazione && this.nomestaz && this.typeOfAlert);
     }
-
-    getObject() {
-        return {
-            data: this.data,
-            idstazione: this.idstazione,
-            nomestaz: this.nomestaz,
-            typeOfAlert: this.typeOfAlert
-        }
-    }
-
    
 
 }

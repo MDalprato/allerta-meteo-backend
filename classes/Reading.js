@@ -14,18 +14,7 @@ class Reading {
 
     isValid() {
         return !!(this.data && this.value && this.idstazione && this.nomestaz);
-    }
-
-    getObject() {
-        return {
-            data: this.data,
-            value: this.value,
-            idstazione: this.idstazione,
-            nomestaz: this.nomestaz,
-        }
-    }
-
-   
+    }   
 
 }
 
