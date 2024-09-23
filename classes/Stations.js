@@ -6,6 +6,7 @@ const { get_sensor_values_url, get_sensor_values_type } = require('../config');
 const fs = require('fs');
 const path = require('path');
 const { saveAlertToDb } = require('../commons/dbActions');
+const { getWeatherByCoordinates } = require('../apps/weather');
 require('dotenv').config();
 
 class Stations {
@@ -74,6 +75,18 @@ class Stations {
               await saveAlertToDb(newAlert);
             }
           }
+
+          // get weather data
+          getWeatherByCoordinates(station.lat, station.lon).then((weatherData) => {
+
+            station.humidity = weatherData.main.humidity;
+            station.temp = weatherData.main.temp;
+            station.pressure = weatherData.main.pressure;
+
+          }).catch((error) => {
+
+            console.log('Errore durante il recupero delle previsioni:', error);
+          });
 
           return station.isValid() ? station : null;
         }));

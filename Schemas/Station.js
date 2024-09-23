@@ -14,6 +14,9 @@ const mongoose = require("mongoose");
  * @property {number} lat - The latitude of the station.
  * @property {number} soglia3 - The threshold 3 value of the station.
  * @property {number} value - The value of the station.
+ * @property {number} temp - The temperature of the station.
+ * @property {number} humidity - The humidity of the station.
+ * @property {number} pressure - The pressure of the station.
  */
 const StationSchema = new mongoose.Schema({
 
@@ -26,6 +29,9 @@ const StationSchema = new mongoose.Schema({
     lat: Number,
     soglia3: Number,
     value: Number,
+    temp: Number,
+    humidity: Number,
+    pressure: Number
 
 });
 
