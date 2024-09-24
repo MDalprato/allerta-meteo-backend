@@ -1,0 +1,31 @@
+version: '3'
+services:
+  updater:
+    build: .
+    env_file:
+      - .env
+    command: npm run updater
+    depends_on:
+      - mongodb
+    environment:
+      DB: mongodb://mongodb:27017/allerta_meteo
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+
+volumes:
+  mongo-data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

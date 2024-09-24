@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 const StationModel = require('../Schemas/Station');
 const AlertModel = require('../Schemas/Alert');
+require('dotenv').config();
 
-const { dbConnection } = require('../config');
-
+const dbConnection = process.env.DB_CONNECTION || 'mongodb://localhost:27017/allerta_meteo';
 async function saveStationsToDb(stationsToBeSaved) {
+
+  console.log('Saving stations to db: ', dbConnection);
+
   if (!Array.isArray(stationsToBeSaved) || stationsToBeSaved.length === 0) {
     console.log("Invalid stations to be saved");
     return 'Error';

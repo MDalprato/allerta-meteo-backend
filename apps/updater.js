@@ -7,7 +7,6 @@ const updateInterval = process.env.UPDATE_INTERVAL || 60000;
 
 function update() {
    myStations.fetchStations().then((stations) => {
-    console.log("**** SAVING DATA ****");
     saveStationsToDb(stations);
   });
 }
