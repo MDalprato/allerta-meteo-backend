@@ -1,7 +1,9 @@
 const Stations = require("../classes/Stations");
 const { saveStationsToDb } = require("../commons/dbActions");
+require('dotenv').config();
 
 const myStations = new Stations();
+const updateInterval = process.env.UPDATE_INTERVAL || 60000;
 
 function update() {
    myStations.fetchStations().then((stations) => {
@@ -13,7 +15,7 @@ function update() {
 function updateData() {
   setInterval(async () => {
     update();
-  }, 60000);
+  }, updateInterval);
 };
 
 async function updateStations() {

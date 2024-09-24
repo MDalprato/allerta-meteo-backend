@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
  *
  * @typedef {Object} StationSchema
  * @property {string} idstazione - The ID of the station.
- * @property {number} ordinamento - The sorting order of the station.
  * @property {string} nomestaz - The name of the station.
  * @property {number} lon - The longitude of the station.
  * @property {number} soglia1 - The threshold 1 value of the station.
@@ -21,7 +20,6 @@ const mongoose = require("mongoose");
 const StationSchema = new mongoose.Schema({
 
     idstazione: String,
-    ordinamento: Number,
     nomestaz: String,
     lon: Number,
     soglia1: Number,

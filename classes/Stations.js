@@ -42,13 +42,12 @@ class Stations {
       const jsonData = await this.getStationFromUrl();
 
       const stations = await Promise.all(jsonData.map(async (stationData) => {
-        if (!stationData.idstazione || !stationData.ordinamento || !stationData.nomestaz || !stationData.lon || !stationData.lat || !stationData.value) {
+        if (!stationData.idstazione  || !stationData.nomestaz || !stationData.lon || !stationData.lat || !stationData.value) {
           return null;
         }
 
         const station = new Station(
           stationData.idstazione,
-          stationData.ordinamento,
           stationData.nomestaz,
           stationData.lon,
           stationData.soglia1,

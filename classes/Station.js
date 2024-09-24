@@ -1,12 +1,11 @@
 class Station {
     // Costruttore della classe
-    constructor(idstazione, ordinamento, nomestaz, lon, soglia1, soglia2, lat, soglia3, value, temp, humidity, pressure) {
-        if (!idstazione || !ordinamento || !nomestaz || !lon || !lat || !value) {
+    constructor(idstazione, nomestaz, lon, soglia1, soglia2, lat, soglia3, value, temp, humidity, pressure) {
+        if (!idstazione  || !nomestaz || !lon || !lat || !value) {
             throw new Error('Tutti i parametri sono obbligatori');
         }
 
         this.idstazione = idstazione;
-        this.ordinamento = ordinamento;
         this.nomestaz = nomestaz;
         this.lon = lon;
         this.lat = lat;
