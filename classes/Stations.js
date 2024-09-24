@@ -65,6 +65,7 @@ class Stations {
           station.humidity = weatherData.main.humidity;
           station.temp = weatherData.main.temp;
           station.pressure = weatherData.main.pressure;
+          station.rain_1h = weatherData.rain ? weatherData.rain['1h'] : 0;
         } catch (error) {
           console.log('Errore durante il recupero delle previsioni:', error);
         }

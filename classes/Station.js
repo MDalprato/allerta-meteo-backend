@@ -1,6 +1,6 @@
 class Station {
     // Costruttore della classe
-    constructor(idstazione, nomestaz, lon, soglia1, soglia2, lat, soglia3, value, temp, humidity, pressure) {
+    constructor(idstazione, nomestaz, lon, soglia1, soglia2, lat, soglia3, value, temp, humidity, pressure, rain_1h) {
         if (!idstazione  || !nomestaz || !lon || !lat || !value) {
             throw new Error('Tutti i parametri sono obbligatori');
         }
@@ -16,6 +16,7 @@ class Station {
         this.temp = temp ? temp : undefined;
         this.humidity = humidity ? humidity : undefined;
         this.pressure = pressure ? pressure : undefined;
+        this.rain_1h = rain_1h ? rain_1h : undefined;
 
     }
 

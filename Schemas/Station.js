@@ -16,6 +16,8 @@ const mongoose = require("mongoose");
  * @property {number} temp - The temperature of the station.
  * @property {number} humidity - The humidity of the station.
  * @property {number} pressure - The pressure of the station.
+ * @property {number} rain_1h - The pressure of the station.
+
  */
 const StationSchema = new mongoose.Schema({
 
@@ -29,7 +31,8 @@ const StationSchema = new mongoose.Schema({
     value: Number,
     temp: Number,
     humidity: Number,
-    pressure: Number
+    pressure: Number,
+    rain_1h: Number,
 
 });
 
