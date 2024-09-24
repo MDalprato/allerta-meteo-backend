@@ -18,15 +18,10 @@ function getWeatherByCity(city) {
 
             // Estrarre i dati dalle previsioni
             const weatherData = response.data;
-            console.log(`temp: ${weatherData.main.temp}°C`);
-            console.log(`humidity: ${weatherData.main.humidity}`);
-            console.log(`pressure: ${weatherData.main.pressure}`);
-
-            if (weatherData.rain && weatherData.rain["1h"]) {
-                console.log(`rain: ${weatherData.rain["1h"]}`);
-            } else {
-                console.log('rain: No data');
-            }
+            // console.log(`temp: ${weatherData.main.temp}°C`);
+            // console.log(`humidity: ${weatherData.main.humidity}`);
+            // console.log(`pressure: ${weatherData.main.pressure}`);
+            // console.log(`rain: ${weatherData.rain["1h"]}`);
 
             console.log(`Condizioni: ${weatherData.weather[0].description}`);
             resolve(weatherData);
@@ -52,13 +47,10 @@ function getWeatherByCoordinates(lat, lon) {
 
             // Estrarre i dati dalle previsioni
             const weatherData = response.data;
-            // console.log(`Città: ${weatherData.name}`);
             // console.log(`temp: ${weatherData.main.temp}°C`);
             // console.log(`humidity: ${weatherData.main.humidity}`);
             // console.log(`pressure: ${weatherData.main.pressure}`);
-
-         
-
+            // console.log(`rain: ${weatherData.rain["1h"]}`);
             resolve(weatherData);
         } catch (error) {
             console.error('Errore durante il recupero delle previsioni:', error);
@@ -67,9 +59,4 @@ function getWeatherByCoordinates(lat, lon) {
     });
 }
 
-
-// Usa la funzione passando il nome della città
-//getWeatherByCity('Faenza');
-// getWeatherByCoordinates(44.31006, 11.82482);
-
-module.exports = {getWeatherByCoordinates, getWeatherByCity}; 
+module.exports = { getWeatherByCoordinates, getWeatherByCity }; 

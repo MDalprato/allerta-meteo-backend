@@ -18,6 +18,17 @@ function updateData() {
 };
 
 async function updateStations() {
+  
+  console.log(`
+    _____ _             _   _             
+   / ____| |           | | (_)            
+  | (___ | |_ __ _ _ __| |_ _  ___  _ __  
+   \\___ \\| __/ _\` | '__| __| |/ _ \\| '_ \\ 
+   ____) | || (_| | |  | |_| | (_) | | | |
+  |_____/ \\__\\__,_|_|   \\__|_|\\___/|_| |_|
+  `);
+
+  console.log("**** Starting updater with a time interval of ", updateInterval);
   update();
   updateData();
 }

@@ -17,7 +17,7 @@ services:
     image: mongo:latest
     container_name: mongodb
     ports:
-      - "27017:27017"
+      - "27018:27017" # Espone la porta 27017 dell'host sulla porta 27017 del container
     volumes:
       - mongo-data:/data/db
     networks:

@@ -97,7 +97,7 @@ class Stations {
 
       if (typeOfAlert != undefined) {
         const data = new Date().toISOString();
-        console.log(`ALERT: ${stationData.nomestaz} - ${stationData.value} - ${typeOfAlert}`);
+        //console.log(`ALERT: ${stationData.nomestaz} - ${stationData.value} - ${typeOfAlert}`);
         const newAlert = new Alert(data, stationData.idstazione, stationData.nomestaz, typeOfAlert);
         await saveAlertToDb(newAlert);
       }
