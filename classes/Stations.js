@@ -37,68 +37,76 @@ class Stations {
     });
   }
 
-  fetchStations() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const jsonData = await this.getStationFromUrl();
-        const stations = await Promise.all(jsonData.map(async stationData => {
-          if (!stationData.idstazione || !stationData.ordinamento || !stationData.nomestaz || !stationData.lon || !stationData.lat || !stationData.value) {
-            return null;
-          }
-          const station = new Station(
-            stationData.idstazione,
-            stationData.ordinamento,
-            stationData.nomestaz,
-            stationData.lon,
-            stationData.soglia1,
-            stationData.soglia2,
-            stationData.lat,
-            stationData.soglia3,
-            stationData.value
-          );
+  async fetchStations() {
+    try {
+      const jsonData = await this.getStationFromUrl();
 
-          if (stationData.soglia1 != 0 || stationData.soglia2 != 0 || stationData.soglia3 != 0) {
-            let typeOfAlert = undefined;
+      const stations = await Promise.all(jsonData.map(async (stationData) => {
+        if (!stationData.idstazione || !stationData.ordinamento || !stationData.nomestaz || !stationData.lon || !stationData.lat || !stationData.value) {
+          return null;
+        }
 
-            if (stationData.value > stationData.soglia3) {
-              typeOfAlert = "RED";
-            } else if (stationData.value > stationData.soglia2) {
-              typeOfAlert = "YELLOW";
-            } else if (stationData.value > stationData.soglia1) {
-              typeOfAlert = "GREEN";
-            }
+        const station = new Station(
+          stationData.idstazione,
+          stationData.ordinamento,
+          stationData.nomestaz,
+          stationData.lon,
+          stationData.soglia1,
+          stationData.soglia2,
+          stationData.lat,
+          stationData.soglia3,
+          stationData.value
+        );
 
-            if (typeOfAlert != undefined) {
-              const data = new Date().toISOString();
-              console.log(`ALERT: ${stationData.nomestaz} - ${stationData.value} - ${typeOfAlert}`);
-              const newAlert = new Alert(data, stationData.idstazione, stationData.nomestaz, typeOfAlert);
-              await saveAlertToDb(newAlert);
-            }
-          }
+        this.checkAlerts(station);
 
-          // get weather data
-          getWeatherByCoordinates(station.lat, station.lon).then((weatherData) => {
+        // Recupera i dati meteo
+        try {
+          const weatherData = await getWeatherByCoordinates(station.lat, station.lon);
+          station.humidity = weatherData.main.humidity;
+          station.temp = weatherData.main.temp;
+          station.pressure = weatherData.main.pressure;
+        } catch (error) {
+          console.log('Errore durante il recupero delle previsioni:', error);
+        }
 
-            station.humidity = weatherData.main.humidity;
-            station.temp = weatherData.main.temp;
-            station.pressure = weatherData.main.pressure;
+        return station.isValid() ? station : null;
+      }));
 
-          }).catch((error) => {
-
-            console.log('Errore durante il recupero delle previsioni:', error);
-          });
-
-          return station.isValid() ? station : null;
-        }));
-
-        const validStations = stations.filter(Boolean);
-        console.log(`Fetched a total of ${validStations.length} stations at ${new Date().toISOString()}`);
-        resolve(validStations);
-      } catch (error) {
-        reject(error);
-      }
-    });
+      const validStations = stations.filter(Boolean);
+      console.log(`Fetched a total of ${validStations.length} stations at ${new Date().toISOString()}`);
+      return validStations;
+    } catch (error) {
+      console.error("Error fetching stations:", error);
+      throw error;
+    }
   }
+
+  async checkAlerts(stationData) {
+
+    // Verifica soglie e genera alert se necessario
+    if (stationData.soglia1 != 0 || stationData.soglia2 != 0 || stationData.soglia3 != 0) {
+      let typeOfAlert = undefined;
+
+      if (stationData.value > stationData.soglia3) {
+        typeOfAlert = "RED";
+      } else if (stationData.value > stationData.soglia2) {
+        typeOfAlert = "YELLOW";
+      } else if (stationData.value > stationData.soglia1) {
+        typeOfAlert = "GREEN";
+      }
+
+      if (typeOfAlert != undefined) {
+        const data = new Date().toISOString();
+        console.log(`ALERT: ${stationData.nomestaz} - ${stationData.value} - ${typeOfAlert}`);
+        const newAlert = new Alert(data, stationData.idstazione, stationData.nomestaz, typeOfAlert);
+        await saveAlertToDb(newAlert);
+      }
+    }
+  }
+
+
+
 }
 
 

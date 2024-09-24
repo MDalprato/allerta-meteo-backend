@@ -22,7 +22,7 @@ class Station {
 
 
     isValid() {
-        return !!(this.idstazione && this.ordinamento && this.nomestaz && this.lon && this.soglia1 && this.soglia2 && this.lat && this.soglia3 && this.value);
+        return !!(this.idstazione && this.nomestaz && this.value);
     }
 
 

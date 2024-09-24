@@ -3,18 +3,21 @@ const { saveStationsToDb } = require("../commons/dbActions");
 
 const myStations = new Stations();
 
-function updateData() {
-  console.log("**** UPDATING DATA ****");
-  setInterval(async () => {
-    await myStations.fetchStations().then((stations) => {
-      console.log("**** SAVING DATA ****");
-      saveStationsToDb(stations);
-    });
+function update() {
+   myStations.fetchStations().then((stations) => {
+    console.log("**** SAVING DATA ****");
+    saveStationsToDb(stations);
+  });
+}
 
-  }, 2000);
+function updateData() {
+  setInterval(async () => {
+    update();
+  }, 60000);
 };
 
 async function updateStations() {
+  update();
   updateData();
 }
 

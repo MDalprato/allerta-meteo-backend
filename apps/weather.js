@@ -52,18 +52,13 @@ function getWeatherByCoordinates(lat, lon) {
 
             // Estrarre i dati dalle previsioni
             const weatherData = response.data;
-            console.log(`Città: ${weatherData.name}`);
-            console.log(`temp: ${weatherData.main.temp}°C`);
-            console.log(`humidity: ${weatherData.main.humidity}`);
-            console.log(`pressure: ${weatherData.main.pressure}`);
+            // console.log(`Città: ${weatherData.name}`);
+            // console.log(`temp: ${weatherData.main.temp}°C`);
+            // console.log(`humidity: ${weatherData.main.humidity}`);
+            // console.log(`pressure: ${weatherData.main.pressure}`);
 
-            if (weatherData.rain && weatherData.rain["1h"]) {
-                console.log(`rain: ${weatherData.rain["1h"]}`);
-            } else {
-                console.log('rain: No data');
-            }
+         
 
-            console.log(`Condizioni: ${weatherData.weather[0].description}`);
             resolve(weatherData);
         } catch (error) {
             console.error('Errore durante il recupero delle previsioni:', error);
