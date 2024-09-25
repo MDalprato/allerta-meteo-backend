@@ -4,10 +4,16 @@ const axios = require('axios');
 
 // Sostituisci con la tua API key di OpenWeatherMap
 const apiKey = process.env.OPENWEATHER_API;
-console.log(apiKey)
 // Funzione per ottenere le previsioni del tempo
 function getWeatherByCity(city) {
+
     return new Promise(async (resolve, reject) => {
+
+        if (apiKey === undefined || apiKey == "") {
+            reject("No api key");
+            return;
+
+        }
         try {
             // URL dell'API con la città e la chiave API
             const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
@@ -34,7 +40,15 @@ function getWeatherByCity(city) {
 
 // Funzione per ottenere le previsioni del tempo
 function getWeatherByCoordinates(lat, lon) {
+
+
     return new Promise(async (resolve, reject) => {
+
+
+        if (apiKey === undefined || apiKey == "") {
+            reject("No api key");
+            return;
+        }
 
         // Convertire lat e lon in numeri con decimali
         lat = lat / 100000;

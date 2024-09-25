@@ -1,11 +1,11 @@
 const http = require('http');
 
 const server = http.createServer(async (req, res) => {
-    if (req.url === '/stations') {
+    if (req.url === '/readings') {
         try {
-            const stations = await Station.find().lean(); // Utilizza .lean() per ottenere oggetti JavaScript normali
+            const readings = await Station.find().lean(); // Utilizza .lean() per ottenere oggetti JavaScript normali
             res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(stations));
+            res.end(JSON.stringify(readings));
         } catch (error) {
             console.error("Errore durante la richiesta delle stazioni:", error);
             res.writeHead(500, { 'Content-Type': 'text/plain' });

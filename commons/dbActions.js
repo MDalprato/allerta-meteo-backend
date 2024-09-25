@@ -1,24 +1,24 @@
 const mongoose = require('mongoose');
-const StationModel = require('../Schemas/Station');
+const StationModel = require('../Schemas/Reading');
 const AlertModel = require('../Schemas/Alert');
 require('dotenv').config();
 
 const dbConnection = process.env.DB;
-console.log('Saving stations to db: ', dbConnection);
+console.log('Saving readings to db: ', dbConnection);
 
 
-async function saveStationsToDb(stationsToBeSaved) {
+async function savreReadingsToDb(readingsToBeSaved) {
 
 
-  if (!Array.isArray(stationsToBeSaved) || stationsToBeSaved.length === 0) {
-    console.log("Invalid stations to be saved");
+  if (!Array.isArray(readingsToBeSaved) || readingsToBeSaved.length === 0) {
+    console.log("Invalid readings to be saved");
     return 'Error';
   }
 
   try {
     await mongoose.connect(dbConnection);
-    const savedStations = await StationModel.insertMany(stationsToBeSaved);
-    console.log(`Saved a total of ${savedStations.length} stations at ${new Date().toISOString()}`);
+    const savedStations = await StationModel.insertMany(readingsToBeSaved);
+    console.log(`Saved a total of ${savedStations.length} readings at ${new Date().toISOString()}`);
     return savedStations;
   } catch (err) {
     console.log(err);
@@ -43,4 +43,4 @@ async function saveAlertToDb(alert) {
   }
 }
 
-module.exports = {saveStationsToDb, saveAlertToDb };
+module.exports = {savreReadingsToDb, saveAlertToDb };

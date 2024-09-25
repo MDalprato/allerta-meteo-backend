@@ -1,5 +1,5 @@
 const https = require('https');
-const Station = require('./Station');
+const Reading = require('./Reading');
 const Alert = require('./Alert');
 const { getTimestamp } = require('../commons/commons');
 const { get_sensor_values_url, get_sensor_values_type } = require('../config');
@@ -9,9 +9,9 @@ const { saveAlertToDb } = require('../commons/dbActions');
 const { getWeatherByCoordinates } = require('../apps/weather');
 require('dotenv').config();
 
-class Stations {
+class Readings {
 
-  getStationFromUrl() {
+  getReadingFromUrl() {
     return new Promise((resolve, reject) => {
       const isDebug = process.env.DEBUG === 'true';
       const uri = `${get_sensor_values_url}?variabile=${get_sensor_values_type}&time=${getTimestamp()}`;
@@ -37,69 +37,69 @@ class Stations {
     });
   }
 
-  async fetchStations() {
+  async fetchReadings() {
     try {
-      const jsonData = await this.getStationFromUrl();
+      const jsonData = await this.getReadingFromUrl();
 
-      const stations = await Promise.all(jsonData.map(async (stationData) => {
-        if (!stationData.idstazione  || !stationData.nomestaz || !stationData.lon || !stationData.lat || !stationData.value) {
+      const readings = await Promise.all(jsonData.map(async (readingData) => {
+        if (!readingData.idstazione  || !readingData.nomestaz || !readingData.lon || !readingData.lat || !readingData.value) {
           return null;
         }
 
-        const station = new Station(
-          stationData.idstazione,
-          stationData.nomestaz,
-          stationData.lon,
-          stationData.soglia1,
-          stationData.soglia2,
-          stationData.lat,
-          stationData.soglia3,
-          stationData.value
+        const reading = new Reading(
+          readingData.idstazione,
+          readingData.nomestaz,
+          readingData.lon,
+          readingData.soglia1,
+          readingData.soglia2,
+          readingData.lat,
+          readingData.soglia3,
+          readingData.value
         );
 
-        this.checkAlerts(station);
+        this.checkAlerts(reading);
 
         // Recupera i dati meteo
         try {
-          const weatherData = await getWeatherByCoordinates(station.lat, station.lon);
-          station.humidity = weatherData.main.humidity;
-          station.temp = weatherData.main.temp;
-          station.pressure = weatherData.main.pressure;
-          station.rain_1h = weatherData.rain ? weatherData.rain['1h'] : 0;
+          const weatherData = await getWeatherByCoordinates(reading.lat, reading.lon);
+          reading.humidity = weatherData.main.humidity;
+          reading.temp = weatherData.main.temp;
+          reading.pressure = weatherData.main.pressure;
+          reading.rain_1h = weatherData.rain ? weatherData.rain['1h'] : 0;
         } catch (error) {
           console.log('Errore durante il recupero delle previsioni:', error);
         }
 
-        return station.isValid() ? station : null;
+        return reading.isValid() ? reading : null;
       }));
 
-      const validStations = stations.filter(Boolean);
-      console.log(`Fetched a total of ${validStations.length} stations at ${new Date().toISOString()}`);
-      return validStations;
+      const validReadings = readings.filter(Boolean);
+      console.log(`Fetched a total of ${validReadings.length} readings at ${new Date().toISOString()}`);
+      return validReadings;
     } catch (error) {
-      console.error("Error fetching stations:", error);
+      console.error("Error fetching readings:", error);
       throw error;
     }
   }
 
-  async checkAlerts(stationData) {
+  async checkAlerts(readingData) {
 
     // Verifica soglie e genera alert se necessario
-    if (stationData.soglia1 != 0 || stationData.soglia2 != 0 || stationData.soglia3 != 0) {
+    if (readingData.soglia1 != 0 || readingData.soglia2 != 0 || readingData.soglia3 != 0) {
       let typeOfAlert = undefined;
 
-      if (stationData.value > stationData.soglia3) {
+      if (readingData.value > readingData.soglia3) {
         typeOfAlert = "RED";
-      } else if (stationData.value > stationData.soglia2) {
+      } else if (readingData.value > readingData.soglia2) {
         typeOfAlert = "YELLOW";
-      } else if (stationData.value > stationData.soglia1) {
+      } else if (readingData.value > readingData.soglia1) {
         typeOfAlert = "GREEN";
       }
 
       if (typeOfAlert != undefined) {
         const data = new Date().toISOString();
-        //console.log(`ALERT: ${stationData.nomestaz} - ${stationData.value} - ${typeOfAlert}`);
-        const newAlert = new Alert(data, stationData.idstazione, stationData.nomestaz, typeOfAlert);
+        //console.log(`ALERT: ${readingData.nomestaz} - ${readingData.value} - ${typeOfAlert}`);
+        const newAlert = new Alert(data, readingData.idstazione, readingData.nomestaz, typeOfAlert);
         await saveAlertToDb(newAlert);
       }
     }
@@ -110,4 +110,4 @@ class Stations {
 }
 
 
-module.exports = Stations;
+module.exports = Readings;

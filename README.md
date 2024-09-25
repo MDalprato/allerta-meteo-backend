@@ -6,7 +6,7 @@
 Il progetto sarà strutturato in microservizi (al momento sono banali script nodeJS)
 I servizi basilari saranno:*
 
-- updater.js: Si occupa di ottenre i dati dalle varie stazioni e di aggiornare la collection di mongo (stations)
+- updater.js: Si occupa di ottenre i dati dalle varie stazioni e di aggiornare la collection di mongo (readings)
   La struttura del dato sarà come sotto, dove i dati aggiornati saranno dentro l'array "readings"
   
 ```json

@@ -1,4 +1,4 @@
-class Station {
+class Reading {
     // Costruttore della classe
     constructor(idstazione, nomestaz, lon, soglia1, soglia2, lat, soglia3, value, temp, humidity, pressure, rain_1h) {
         if (!idstazione  || !nomestaz || !lon || !lat || !value) {
@@ -28,4 +28,4 @@ class Station {
 
 }
 
-module.exports = Station;
+module.exports = Reading;
