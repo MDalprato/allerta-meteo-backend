@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { getReadingsFromDb } = require('../commons/dbActions');
+const { getReadingsFromDb, getReadingsByStationName } = require('../commons/dbActions');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
@@ -79,6 +79,60 @@ app.get('/reading', async (req, res) => {
     } catch (error) {
         console.error("Errore durante la richiesta delle letture:", error);
         res.status(500).send('Errore durante la richiesta delle letture');
+    }
+});
+
+
+
+/**
+ * @swagger
+ * /stationData:
+ *   get:
+ *     summary: Ottiene tutte le letture per una stazione specifica
+ *     parameters:
+ *       - in: query
+ *         name: stationName
+ *         schema:
+ *           type: string
+ *           example: "Savignano"
+ *         description: Nome della stazione per cui ottenere le letture
+ *     responses:
+ *       200:
+ *         description: Successo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   timestamp:
+ *                     type: string
+ *                     example: "2024-09-25T10:00:00Z"
+ *                   temperature:
+ *                     type: number
+ *                     example: 24.5
+ *                   humidity:
+ *                     type: number
+ *                     example: 60
+ *       400:
+ *         description: Nome della stazione non fornito
+ *       500:
+ *         description: Errore del server
+ */
+app.get('/stationData', async (req, res) => {
+    const { stationName } = req.query;
+
+    if (!stationName) {
+        return res.status(400).send('Il parametro "stationName" è obbligatorio.');
+    }
+
+    try {
+        const readings = await getReadingsByStationName(stationName);
+        res.status(200).json(readings);
+    } catch (error) {
+        console.error("Errore durante la richiesta delle letture per la stazione:", error);
+        res.status(500).send('Errore durante la richiesta delle letture per la stazione');
     }
 });
 

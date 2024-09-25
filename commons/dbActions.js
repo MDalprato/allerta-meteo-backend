@@ -58,4 +58,20 @@ async function getReadingsFromDb(startTime) {
   }
 }
 
-module.exports = { savreReadingsToDb, saveAlertToDb, getReadingsFromDb};
+
+// dbActions.js
+async function getReadingsByStationName(stationName) {
+  try {
+
+      const readings = await ReadingModel.find({
+        nomestaz: stationName
+      }).lean();
+
+      return readings;
+  } catch (error) {
+      throw new Error('Errore durante il recupero delle letture: ' + error.message);
+  }
+}
+
+
+module.exports = { savreReadingsToDb, saveAlertToDb, getReadingsFromDb, getReadingsByStationName};
