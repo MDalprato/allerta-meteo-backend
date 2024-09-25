@@ -47,6 +47,7 @@ class Readings {
         }
 
         const reading = new Reading(
+          new Date().toISOString(),
           readingData.idstazione,
           readingData.nomestaz,
           readingData.lon,

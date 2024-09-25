@@ -1,10 +1,11 @@
 class Reading {
     // Costruttore della classe
-    constructor(idstazione, nomestaz, lon, soglia1, soglia2, lat, soglia3, value, temp, humidity, pressure, rain_1h) {
-        if (!idstazione  || !nomestaz || !lon || !lat || !value) {
+    constructor(timestamp, idstazione, nomestaz, lon, soglia1, soglia2, lat, soglia3, value, temp, humidity, pressure, rain_1h) {
+        if (!timestamp, !idstazione  || !nomestaz || !lon || !lat || !value) {
             throw new Error('Tutti i parametri sono obbligatori');
         }
 
+        this.timestamp = timestamp;
         this.idstazione = idstazione;
         this.nomestaz = nomestaz;
         this.lon = lon;

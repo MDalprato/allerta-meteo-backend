@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const StationModel = require('../Schemas/Reading');
+const ReadingModel = require('../Schemas/Reading');
 const AlertModel = require('../Schemas/Alert');
 require('dotenv').config();
 
@@ -16,9 +16,9 @@ async function savreReadingsToDb(readingsToBeSaved) {
 
   try {
     await mongoose.connect(dbConnection);
-    const savedStations = await StationModel.insertMany(readingsToBeSaved);
-    console.log(`Saved a total of ${savedStations.length} readings at ${new Date().toISOString()}`);
-    return savedStations;
+    const savedReading = await ReadingModel.insertMany(readingsToBeSaved);
+    console.log(`Saved a total of ${savedReading.length} readings at ${new Date().toISOString()}`);
+    return savedReading;
   } catch (err) {
     console.log(err);
     throw err;
@@ -47,7 +47,7 @@ async function getReadingsFromDb(startTime) {
   try {
     await mongoose.connect(dbConnection);
 
-    const readings = await Station.find({
+    const readings = await ReadingModel.find({
       timestamp: { $gte: startTime }
     }).lean();
 

@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
  * Represents the schema for a station.
  *
  * @typedef {Object} ReadingSchema
+ * @property {string} timestamp - The timestamp of the reading.
  * @property {string} idstazione - The ID of the reading.
  * @property {string} nomestaz - The name of the reading.
  * @property {number} lon - The longitude of the reading.
@@ -21,6 +22,7 @@ const mongoose = require("mongoose");
  */
 const ReadingSchema = new mongoose.Schema({
 
+    timestamp: Date,
     idstazione: String,
     nomestaz: String,
     lon: Number,
