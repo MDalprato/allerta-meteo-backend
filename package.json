@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jest",
     "updater": "node apps/updater.js",
-    "weather": "node apps/weather.js"
+    "weather": "node apps/weather.js",
+    "http": "node apps/http.js"
   },
   "author": "",
   "license": "ISC",
