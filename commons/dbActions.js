@@ -4,7 +4,6 @@ const AlertModel = require('../Schemas/Alert');
 require('dotenv').config();
 
 const dbConnection = process.env.DB;
-console.log('Saving readings to db: ', dbConnection);
 
 
 async function savreReadingsToDb(readingsToBeSaved) {
@@ -43,4 +42,20 @@ async function saveAlertToDb(alert) {
   }
 }
 
-module.exports = {savreReadingsToDb, saveAlertToDb };
+
+async function getReadingsFromDb(startTime) {
+  try {
+    await mongoose.connect(dbConnection);
+
+    const readings = await Station.find({
+      timestamp: { $gte: startTime }
+    }).lean();
+
+    return readings;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
+module.exports = { savreReadingsToDb, saveAlertToDb, getReadingsFromDb};
