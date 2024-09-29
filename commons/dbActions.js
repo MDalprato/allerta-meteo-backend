@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const ReadingModel = require('../Schemas/Reading');
 const AlertModel = require('../Schemas/Alert');
+const StationModel = require('../Schemas/Station');
 require('dotenv').config();
 
 const dbConnection = process.env.DB;
 
-
-async function savreReadingsToDb(readingsToBeSaved) {
+async function saveReadingsToDb(readingsToBeSaved) {
 
 
   if (!Array.isArray(readingsToBeSaved) || readingsToBeSaved.length === 0) {
@@ -19,6 +19,32 @@ async function savreReadingsToDb(readingsToBeSaved) {
     const savedReading = await ReadingModel.insertMany(readingsToBeSaved);
     console.log(`Saved a total of ${savedReading.length} readings at ${new Date().toISOString()}`);
     return savedReading;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+async function saveStationsToDb(stationsToBeSaved) {
+  if (!Array.isArray(stationsToBeSaved) || stationsToBeSaved.length === 0) {
+    console.log("Invalid stations to be saved");
+    return 'Error';
+  }
+
+  try {
+    await mongoose.connect(dbConnection);
+    const savedStations = [];
+
+    for (const station of stationsToBeSaved) {
+      const updatedStation = await StationModel.findOneAndUpdate(
+        { idstazione: station.idstazione }, // Assuming stationId is the unique identifier
+        station,
+        { new: true, upsert: true } // Create a new document if no match is found
+      );
+      savedStations.push(updatedStation);
+    }
+
+    console.log(`Saved a total of ${savedStations.length} stations at ${new Date().toISOString()}`);
+    return savedStations;
   } catch (err) {
     console.log(err);
     throw err;
@@ -63,15 +89,15 @@ async function getReadingsFromDb(startTime) {
 async function getReadingsByStationName(stationName) {
   try {
 
-      const readings = await ReadingModel.find({
-        nomestaz: stationName
-      }).lean();
+    const readings = await ReadingModel.find({
+      nomestaz: stationName
+    }).lean();
 
-      return readings;
+    return readings;
   } catch (error) {
-      throw new Error('Errore durante il recupero delle letture: ' + error.message);
+    throw new Error('Errore durante il recupero delle letture: ' + error.message);
   }
 }
 
 
-module.exports = { savreReadingsToDb, saveAlertToDb, getReadingsFromDb, getReadingsByStationName};
+module.exports = {saveStationsToDb, saveReadingsToDb, saveAlertToDb, getReadingsFromDb, getReadingsByStationName };

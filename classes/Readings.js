@@ -8,6 +8,7 @@ const path = require('path');
 const { saveAlertToDb } = require('../commons/dbActions');
 const { getWeatherByCoordinates } = require('../apps/weather');
 require('dotenv').config();
+const apiKey = process.env.OPENWEATHER_API;
 
 class Readings {
 
@@ -42,7 +43,7 @@ class Readings {
       const jsonData = await this.getReadingFromUrl();
 
       const readings = await Promise.all(jsonData.map(async (readingData) => {
-        if (!readingData.idstazione  || !readingData.nomestaz || !readingData.lon || !readingData.lat || !readingData.value) {
+        if (!readingData.idstazione || !readingData.nomestaz || !readingData.lon || !readingData.lat || !readingData.value) {
           return null;
         }
 
@@ -60,16 +61,22 @@ class Readings {
 
         this.checkAlerts(reading);
 
-        // Recupera i dati meteo
-        try {
-          const weatherData = await getWeatherByCoordinates(reading.lat, reading.lon);
-          reading.humidity = weatherData.main.humidity;
-          reading.temp = weatherData.main.temp;
-          reading.pressure = weatherData.main.pressure;
-          reading.rain_1h = weatherData.rain ? weatherData.rain['1h'] : 0;
-        } catch (error) {
-          console.log('Errore durante il recupero delle previsioni:', error);
+
+
+        if (apiKey != undefined) {
+          // Recupera i dati meteo
+          try {
+            const weatherData = await getWeatherByCoordinates(reading.lat, reading.lon);
+            reading.humidity = weatherData.main.humidity;
+            reading.temp = weatherData.main.temp;
+            reading.pressure = weatherData.main.pressure;
+            reading.rain_1h = weatherData.rain ? weatherData.rain['1h'] : 0;
+          } catch (error) {
+            console.log('Errore durante il recupero delle previsioni:', error);
+          }
+
         }
+
 
         return reading.isValid() ? reading : null;
       }));

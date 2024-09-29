@@ -23,7 +23,7 @@ class Reading {
 
 
     isValid() {
-        return !!(this.idstazione && this.nomestaz && this.value);
+        return !!(this.idstazione && this.nomestaz);
     }
 
 
