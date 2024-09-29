@@ -100,4 +100,18 @@ async function getReadingsByStationName(stationName) {
 }
 
 
-module.exports = {saveStationsToDb, saveReadingsToDb, saveAlertToDb, getReadingsFromDb, getReadingsByStationName };
+// dbActions.js
+async function getAllStations() {
+  try {
+
+    const stations = await StationModel.find({}).lean();
+    return stations;
+
+  } catch (error) {
+    throw new Error('Errore durante il recupero delle letture: ' + error.message);
+  }
+}
+
+
+
+module.exports = {getAllStations, saveStationsToDb, saveReadingsToDb, saveAlertToDb, getReadingsFromDb, getReadingsByStationName };

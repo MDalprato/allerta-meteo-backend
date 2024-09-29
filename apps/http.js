@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { getReadingsFromDb, getReadingsByStationName } = require('../commons/dbActions');
+const { getReadingsFromDb, getReadingsByStationName, getAllStations } = require('../commons/dbActions');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
@@ -86,7 +86,7 @@ app.get('/reading', async (req, res) => {
 
 /**
  * @swagger
- * /stationData:
+ * /get_readings_by_station_name:
  *   get:
  *     summary: Ottiene tutte le letture per una stazione specifica
  *     parameters:
@@ -94,7 +94,7 @@ app.get('/reading', async (req, res) => {
  *         name: stationName
  *         schema:
  *           type: string
- *           example: "Savignano"
+ *           example: "Castell'Arquato Canale"
  *         description: Nome della stazione per cui ottenere le letture
  *     responses:
  *       200:
@@ -120,7 +120,8 @@ app.get('/reading', async (req, res) => {
  *       500:
  *         description: Errore del server
  */
-app.get('/stationData', async (req, res) => {
+
+app.get('/get_readings_by_station_name', async (req, res) => {
     const { stationName } = req.query;
 
     if (!stationName) {
@@ -133,6 +134,46 @@ app.get('/stationData', async (req, res) => {
     } catch (error) {
         console.error("Errore durante la richiesta delle letture per la stazione:", error);
         res.status(500).send('Errore durante la richiesta delle letture per la stazione');
+    }
+});
+
+/**
+ * @swagger
+ * /stations:
+ *   get:
+ *     summary: Ottiene tutte le stazioni meteorologiche
+ *     responses:
+ *       200:
+ *         description: Successo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   name:
+ *                     type: string
+ *                     example: "Savignano"
+ *                   location:
+ *                     type: object
+ *                     properties:
+ *                       latitude:
+ *                         type: number
+ *                         example: 44.123
+ *                       longitude:
+ *                         type: number
+ *                         example: 11.456
+ *       500:
+ *         description: Errore del server
+ */
+app.get('/stations', async (req, res) => {
+    try {
+        const readings = await getAllStations();
+        res.status(200).json(readings);
+    } catch (error) {
+        console.error("Errore durante la richiesta delle stazioni:", error);
+        res.status(500).send('Errore durante la richiesta delle stazioni');
     }
 });
 
