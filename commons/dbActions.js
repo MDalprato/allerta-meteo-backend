@@ -88,6 +88,7 @@ async function getReadingsFromDb(startTime) {
 // dbActions.js
 async function getReadingsByStationName(stationName) {
   try {
+    await mongoose.connect(dbConnection);
 
     const readings = await ReadingModel.find({
       nomestaz: stationName
@@ -103,6 +104,7 @@ async function getReadingsByStationName(stationName) {
 // dbActions.js
 async function getAllStations() {
   try {
+    await mongoose.connect(dbConnection);
 
     const stations = await StationModel.find({}).lean();
     return stations;

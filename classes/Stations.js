@@ -52,7 +52,6 @@ class Stations {
        
         );
 
-        console.log(`Fetched station: ${station.name}`);
 
         return station.isValid() ? station : null;
       }));

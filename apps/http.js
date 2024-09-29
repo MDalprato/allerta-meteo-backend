@@ -5,6 +5,19 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
 const app = express();
+const cors = require('cors');
+
+
+const corsOptions = {
+    origin: '*', // Sostituisci con il dominio da cui fai le richieste
+    methods: 'GET,POST', // Puoi specificare i metodi che vuoi consentire
+    allowedHeaders: ['Content-Type', 'Authorization'], // Intestazioni consentite
+    optionsSuccessStatus: 200 // Per i browser che non supportano lo status 204 per le preflight requests
+};
+
+app.use(cors(corsOptions));
+
+
 
 // Configurazione Swagger
 const swaggerOptions = {
@@ -179,6 +192,8 @@ app.get('/stations', async (req, res) => {
 
 // Porta del server
 const PORT = process.env.PORT || 8080;
+
+
 
 app.listen(PORT, () => {
     console.log(`Server in esecuzione sulla porta ${PORT}`);
