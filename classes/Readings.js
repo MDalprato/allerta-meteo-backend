@@ -63,19 +63,19 @@ class Readings {
 
 
 
-        if (apiKey != undefined) {
-          // Recupera i dati meteo
-          try {
-            const weatherData = await getWeatherByCoordinates(reading.lat, reading.lon);
-            reading.humidity = weatherData.main.humidity;
-            reading.temp = weatherData.main.temp;
-            reading.pressure = weatherData.main.pressure;
-            reading.rain_1h = weatherData.rain ? weatherData.rain['1h'] : 0;
-          } catch (error) {
-            console.log('Errore durante il recupero delle previsioni:', error);
-          }
+        // if (apiKey != undefined) {
+        //   // Recupera i dati meteo
+        //   try {
+        //     const weatherData = await getWeatherByCoordinates(reading.lat, reading.lon);
+        //     reading.humidity = weatherData.main.humidity;
+        //     reading.temp = weatherData.main.temp;
+        //     reading.pressure = weatherData.main.pressure;
+        //     reading.rain_1h = weatherData.rain ? weatherData.rain['1h'] : 0;
+        //   } catch (error) {
+        //     console.log('Errore durante il recupero delle previsioni:', error);
+        //   }
 
-        }
+        // }
 
 
         return reading.isValid() ? reading : null;
