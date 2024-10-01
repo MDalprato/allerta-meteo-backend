@@ -17,7 +17,7 @@ function singleReadingsUpdate() {
 
 function timerForReadings() {
   setInterval(async () => {
-    singleReadingUpdate();
+    this.singleReadingUpdate();
   }, updateInterval);
 };
 
@@ -31,12 +31,9 @@ function singleStationsUpdate() {
 
 function timerForStations() {
  setInterval(async () => {
-  singleStationsUpdate();
+  this.singleStationsUpdate();
  }, updateInterval * 10);
 };
-
-
-//
 
 
 async function updateReadings() {
