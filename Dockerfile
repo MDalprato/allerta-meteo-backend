@@ -19,7 +19,7 @@ ENV UPDATE_INTERVAL=3600000
 ENV DB=mongodb://localhost:27017/allerta_meteo
 
 # Specifica il comando che verrà eseguito quando il container si avvia
-CMD ["npm", "run", "updater"]
+CMD ["sh", "-c", "npm run updater & npm run http"]
 
 #docker build -t updater .
 #docker run -d updater

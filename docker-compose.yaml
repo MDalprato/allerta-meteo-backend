@@ -12,6 +12,9 @@ services:
       DB: mongodb://mongodb:27017/allerta_meteo
     networks:
       - app-network
+    ports:
+      - "8080:8080" # Espone la porta 27017 dell'host sulla porta 27017 del container
+
 
   mongodb:
     image: mongo:latest
