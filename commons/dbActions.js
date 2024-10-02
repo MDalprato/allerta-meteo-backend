@@ -117,7 +117,6 @@ async function getReadingsByStationId(stationId) {
 
 
 
-
 // dbActions.js
 async function getAllStations() {
   try {
@@ -132,5 +131,33 @@ async function getAllStations() {
 }
 
 
+async function getLastReadingsForAllStations() {
+  try {
+    await mongoose.connect(dbConnection, { useNewUrlParser: true, useUnifiedTopology: true });
 
-module.exports = {getReadingsByStationId, getAllStations, saveStationsToDb, saveReadingsToDb, saveAlertToDb, getReadingsFromDb, getReadingsByStationName };
+    const readings = await ReadingModel.aggregate([
+      {
+        $sort: { timestamp: -1 }
+      },
+      {
+        $group: {
+          _id: "$idstazione",
+          latestReading: { $first: "$$ROOT" }
+        }
+      },
+      {
+        $replaceRoot: { newRoot: "$latestReading" }
+      }
+    ]);
+
+    return readings;
+  } catch (err) {
+    console.error('Error fetching readings:', err);
+    throw err;
+  } finally {
+    await mongoose.disconnect();
+  }
+}
+
+
+module.exports = {getLastReadingsForAllStations, getReadingsByStationId, getAllStations, saveStationsToDb, saveReadingsToDb, saveAlertToDb, getReadingsFromDb, getReadingsByStationName };

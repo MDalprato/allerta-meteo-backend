@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { getReadingsFromDb, getReadingsByStationName, getAllStations, getReadingsByStationId } = require('../commons/dbActions');
+const { getReadingsFromDb, getReadingsByStationName, getAllStations, getReadingsByStationId, getLastReadingsForAllStations } = require('../commons/dbActions');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
@@ -81,15 +81,21 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
 app.get('/readings', async (req, res) => {
-    const timeParam = req.query.time || '1h';  // Default a 1h
-
-    // Estrazione del tempo specificato in ore
-    const hours = parseInt(timeParam.replace('h', ''));
-    const currentTime = new Date();
-    const startTime = new Date(currentTime.getTime() - hours * 60 * 60 * 1000);  // Sottrae le ore specificate
+    const timeParam = req.query.time;
 
     try {
-        const readings = await getReadingsFromDb(startTime);
+        let readings;
+        if (!timeParam) {
+            // Ottieni l'ultima lettura per ogni stazione
+            readings = await getLastReadingsForAllStations();
+        } else {
+            // Estrazione del tempo specificato in ore
+            const hours = parseInt(timeParam.replace('h', ''));
+            const currentTime = new Date();
+            const startTime = new Date(currentTime.getTime() - hours * 60 * 60 * 1000);  // Sottrae le ore specificate
+
+            readings = await getReadingsFromDb(startTime);
+        }
 
         res.status(200).json(readings);
     } catch (error) {
@@ -97,6 +103,7 @@ app.get('/readings', async (req, res) => {
         res.status(500).send('Errore durante la richiesta delle letture');
     }
 });
+
 
 
 
