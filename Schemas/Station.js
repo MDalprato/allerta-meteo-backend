@@ -9,6 +9,9 @@ const mongoose = require("mongoose");
  * @property {string} nomestaz - The name of the reading.
  * @property {number} lon - The longitude of the reading.
  * @property {number} lat - The latitude of the reading.
+ * @property {number} soglia1 - The first threshold of the reading.
+ * @property {number} soglia2 - The second threshold of the reading.
+ * @property {number} soglia3 - The third threshold of the reading.
 
 
  */
@@ -17,6 +20,9 @@ const StationSchema = new mongoose.Schema({
     nomestaz: String,
     lon: Number,
     lat: Number,
+    soglia1: Number,
+    soglia2: Number,
+    soglia3: Number
 });
 
 

@@ -49,6 +49,9 @@ class Stations {
           stationData.nomestaz,
           stationData.lon / 100000,
           stationData.lat / 100000,
+          stationData.soglia1,
+          stationData.soglia2,
+          stationData.soglia3
        
         );
 
