@@ -100,6 +100,23 @@ async function getReadingsByStationName(stationName) {
   }
 }
 
+// dbActions.js
+async function getReadingsByStationId(stationId) {
+  try {
+    await mongoose.connect(dbConnection);
+
+    const readings = await ReadingModel.find({
+      idstazione: stationId
+    }).lean();
+
+    return readings;
+  } catch (error) {
+    throw new Error('Errore durante il recupero delle letture: ' + error.message);
+  }
+}
+
+
+
 
 // dbActions.js
 async function getAllStations() {
@@ -116,4 +133,4 @@ async function getAllStations() {
 
 
 
-module.exports = {getAllStations, saveStationsToDb, saveReadingsToDb, saveAlertToDb, getReadingsFromDb, getReadingsByStationName };
+module.exports = {getReadingsByStationId, getAllStations, saveStationsToDb, saveReadingsToDb, saveAlertToDb, getReadingsFromDb, getReadingsByStationName };

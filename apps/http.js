@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { getReadingsFromDb, getReadingsByStationName, getAllStations } = require('../commons/dbActions');
+const { getReadingsFromDb, getReadingsByStationName, getAllStations, getReadingsByStationId } = require('../commons/dbActions');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
@@ -45,7 +45,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 /**
  * @swagger
- * /reading:
+ * /readings:
  *   get:
  *     summary: Ottiene le letture della stazione meteorologica
  *     parameters:
@@ -77,7 +77,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *       500:
  *         description: Errore del server
  */
-app.get('/reading', async (req, res) => {
+
+
+
+app.get('/readings', async (req, res) => {
     const timeParam = req.query.time || '1h';  // Default a 1h
 
     // Estrazione del tempo specificato in ore
@@ -143,6 +146,74 @@ app.get('/get_readings_by_station_name', async (req, res) => {
 
     try {
         const readings = await getReadingsByStationName(stationName);
+        res.status(200).json(readings);
+    } catch (error) {
+        console.error("Errore durante la richiesta delle letture per la stazione:", error);
+        res.status(500).send('Errore durante la richiesta delle letture per la stazione');
+    }
+});
+
+
+/**
+ * @swagger
+ * /get_readings_by_station_id:
+ *   get:
+ *     summary: Ottiene le letture per una stazione specifica tramite ID
+ *     parameters:
+ *       - in: query
+ *         name: stationId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: L'ID della stazione per cui ottenere le letture
+ *     responses:
+ *       200:
+ *         description: Successo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   readingId:
+ *                     type: string
+ *                     description: L'ID della lettura
+ *                     example: "12345"
+ *                   value:
+ *                     type: number
+ *                     description: Il valore della lettura
+ *                     example: 23.5
+ *                   timestamp:
+ *                     type: string
+ *                     format: date-time
+ *                     description: La data e ora della lettura
+ *                     example: "2023-10-01T12:00:00Z"
+ *       400:
+ *         description: Richiesta errata, parametro stationId mancante
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: 'Il parametro "stationId" è obbligatorio.'
+ *       500:
+ *         description: Errore del server
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: 'Errore durante la richiesta delle letture per la stazione'
+ */
+
+app.get('/get_readings_by_station_id', async (req, res) => {
+    const { stationId } = req.query;
+
+    if (!stationId) {
+        return res.status(400).send('Il parametro "stationId" è obbligatorio.');
+    }
+
+    try {
+        const readings = await getReadingsByStationId(stationId);
         res.status(200).json(readings);
     } catch (error) {
         console.error("Errore durante la richiesta delle letture per la stazione:", error);

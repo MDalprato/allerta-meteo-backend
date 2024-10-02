@@ -51,10 +51,10 @@ class Readings {
           new Date().toISOString(),
           readingData.idstazione,
           readingData.nomestaz,
-          readingData.lon,
+          readingData.lon / 100000,
           readingData.soglia1,
           readingData.soglia2,
-          readingData.lat,
+          readingData.lat / 100000,
           readingData.soglia3,
           readingData.value
         );

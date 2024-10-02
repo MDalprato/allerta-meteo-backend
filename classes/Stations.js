@@ -47,8 +47,8 @@ class Stations {
         const station = new Station(
           stationData.idstazione,
           stationData.nomestaz,
-          stationData.lon,
-          stationData.lat,
+          stationData.lon / 100000,
+          stationData.lat / 100000,
        
         );
 
