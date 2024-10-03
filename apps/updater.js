@@ -17,7 +17,7 @@ function singleReadingsUpdate() {
 
 function timerForReadings() {
   setInterval(async () => {
-    this.singleReadingUpdate();
+    singleReadingsUpdate();
   }, updateInterval);
 };
 
