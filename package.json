@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "updater": "node apps/updater.js",
-    "weather": "node apps/weather.js",
-    "http": "node apps/http.js"
+    "start": "node apps/http.js"
   },
   "author": "",
   "license": "ISC",

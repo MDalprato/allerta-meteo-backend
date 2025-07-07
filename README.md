@@ -31,3 +31,7 @@ I servizi basilari saranno:*
 - weather.js: Si occupa di ottenere i dati delle previsioni meteo da un provider ogni X minuti e di aggiornare una collection rapportando location->stazione.
 - future.js: Si occupa di mixare i dati statistici di stats.js con weather.js in modo da cercare di capire il rapporto che coesiste tra il meteo e l'andamento del livello dei fiumi. Per questa parte potrei valutare l'utilizzo di un servizio di IA o di Data anlytics (ma dopo aver deciso hosting e budget di spesa.)
 - notificator.js: Si occupa di notificare (in qualche modo) gli allarmi
+
+
+
+RUN docker run -d --name mongo-container -p 27017:27017 mongo

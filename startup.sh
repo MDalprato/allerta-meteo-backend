@@ -1,0 +1,1 @@
+sudo docker run -d --name docker-for-allerta-meteo -p 27017:27017 mongo

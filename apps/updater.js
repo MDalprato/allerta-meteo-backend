@@ -45,4 +45,4 @@ async function updateReadings() {
   timerForStations();
 }
 
-updateReadings();
+module.exports = { updateReadings }; 
